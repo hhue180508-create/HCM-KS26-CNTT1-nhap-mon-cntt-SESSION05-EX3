@@ -1,0 +1,41 @@
+1. Sơ đồ luồng IPO (Input – Process – Output)
+INPUT (Đầu vào)
+Đường dẫn thư mục smart-farm
+Danh sách file cần tạo
+Yêu cầu sao chép thư mục code
+PROCESS (Xử lý)
+New-Item tạo thư mục lồng nhau
+New-Item tạo 3 file
+Copy-Item -Recurse sao chép thư mục
+OUTPUT (Đầu ra)
+Cây thư mục smart-farm hoàn chỉnh
+3 file cấu hình được tạo
+Bản sao backup\code_v1
+2. Danh sách lệnh PowerShell
+Bước 1: Tạo cây thư mục bằng duy nhất 1 dòng lệnh
+PowerShell
+New-Item -ItemType Directory -Force -Path "smart-farm\code","smart-farm\data\logs","smart-farm\backup"
+Lệnh này tạo các thư mục code, data\logs và backup bên trong smart-farm. Tham số -Force hỗ trợ tạo thư mục cha còn thiếu.
+Bước 2: Tạo cùng lúc 3 file bằng 1 dòng lệnh
+PowerShell
+New-Item -ItemType File -Force -Path "smart-farm\code\config.json","smart-farm\code\sensors.py","smart-farm\code\.env"
+Lệnh tạo 3 file trống trong thư mục code. File .env có tên bắt đầu bằng dấu chấm, nhưng không tự động trở thành file ẩn trong Windows chỉ vì có dấu chấm ở đầu tên.
+Bước 3: Sao chép toàn bộ thư mục code sang backup\code_v1
+PowerShell
+Copy-Item -Path "smart-farm\code" -Destination "smart-farm\backup\code_v1" -Recurse
+Tham số -Recurse giúp sao chép toàn bộ nội dung bên trong thư mục code, bao gồm các thư mục con nếu có.
+3. Kết quả cấu trúc thư mục
+smart-farm/
+├── code/
+│   ├── config.json
+│   ├── sensors.py
+│   └── .env
+├── data/
+│   └── logs/
+└── backup/
+    └── code_v1/
+        ├── config.json
+        ├── sensors.py
+        └── .env
+Kết luận: Bài làm sử dụng PowerShell với 3 lệnh chính để tạo thư mục, tạo file và sao chép dữ liệu. Lưu ý rằng .env thường được dùng để lưu biến môi trường, vì vậy không nên đưa thông tin bí mật vào bản sao lưu không được bảo vệ.
+
